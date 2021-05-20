@@ -1,4 +1,5 @@
 ﻿using APICatalogo.Models;
+using APICatalogo.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace APICatalogo.Repository
 {
     public interface IProdutoRepository : IRepository<Produto>
     {
+        IEnumerable<Produto> GetProdutos(ProdutosParameters produtosParameters);
         IEnumerable<Produto> GetProdutosPorPreco();
     }
 }
