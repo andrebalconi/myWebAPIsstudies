@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace APICatalogo.Pagination
 {
-    public class ProdutosParameters : QueryStringParameter
+    public class CategoriasParameters : QueryStringParameter
     {
-        
+
     }
 }
