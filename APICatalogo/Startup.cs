@@ -20,6 +20,10 @@ using APICatalogo.Logging;
 using APICatalogo.Repository;
 using AutoMapper;
 using APICatalogo.DTOs.Mappings;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace APICatalogo
 {
@@ -49,6 +53,22 @@ namespace APICatalogo
             services.AddDbContextPool<AppDbContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
             services.AddTransient<IMeuServico, MeuServico>();
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(
+                JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option => option.TokenValidationParameters = new TokenValidationParameters
+                { 
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidAudience = Configuration["TokenConfiguration:Audience"],
+                    ValidIssuer = Configuration["TokenConfiguration:Issuer"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                });
             
             services.AddControllers().AddJsonOptions(option =>
                 {
@@ -77,11 +97,13 @@ namespace APICatalogo
             }));
             //Tratamento de Erro
             app.ConfigureExceptionHandler();
-
+            //Add Middleware para redirecionar para https
             app.UseHttpsRedirection();
-
+            //Add Middleware para roteamento
             app.UseRouting();
-
+            //Add Middleware para autenticação
+            app.UseAuthentication();
+            //Add Middleware para que habilita a autorização
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -21,7 +21,10 @@ namespace APICatalogo.Models
         [StringLength(300, ErrorMessage = "The Name must contain between 10 and 300 caracters.", MinimumLength = 10)]
         public string Descricao { get; set; }
         [Required]
-        public string Preco { get; set; }
+        [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(8,2)")]
+        [Range(1, 10000, ErrorMessage = "O preço deve estar entre {1} e {2}")]
+        public decimal Preco { get; set; }
         [Required]
         [MaxLength(500)]
         public string ImagemUrl { get; set; }
