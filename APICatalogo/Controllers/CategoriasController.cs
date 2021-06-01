@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace APICatalogo.Controllers
 {
+    [Produces("application/json")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
@@ -92,6 +93,11 @@ namespace APICatalogo.Controllers
             }
             
         }
+        /// <summary>
+        /// Add a New Category
+        /// </summary>
+        /// <param name="categoriaDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CategoriaDTO categoriaDto)
         {
@@ -111,6 +117,12 @@ namespace APICatalogo.Controllers
             }
             
         }
+        /// <summary>
+        /// Update Category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="categoriaDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] CategoriaDTO categoriaDto)
         {
@@ -133,6 +145,11 @@ namespace APICatalogo.Controllers
             }
             
         }
+        /// <summary>
+        /// Delete a Category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<CategoriaDTO>> Delete(int id)
         {

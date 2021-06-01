@@ -25,6 +25,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using System.Reflection;
+using System.IO;
 
 namespace APICatalogo
 {
@@ -96,7 +98,14 @@ namespace APICatalogo
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APICatalogo", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APICatalogo", Version = "v1", Description = "Catalogo de Produtos e Categorias",
+                    Contact = new OpenApiContact { Name = "balconi", Email = "andrebalconi@hotmail.com" },
+                    License = new OpenApiLicense { Name = "Use about LICX"}
+                });
+                //Add os comentários
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -137,7 +146,4 @@ namespace APICatalogo
         }
     }
 
-    internal class HeaderApiVersionHeader : IApiVersionReader
-    {
-    }
 }

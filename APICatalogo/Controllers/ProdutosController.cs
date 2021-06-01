@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace APICatalogo.Controllers
 {
+    [Produces("application/json")]
     [ApiVersion("1.0")]
     [Route("api/[Controller]")]
     [ApiController]
@@ -77,6 +78,11 @@ namespace APICatalogo.Controllers
             }
             
         }
+        /// <summary>
+        /// Adiciona um Novo Produto
+        /// </summary>
+        /// <param name="produtoDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<Produto>> Post([FromBody] ProdutoDTO produtoDto)
         {
