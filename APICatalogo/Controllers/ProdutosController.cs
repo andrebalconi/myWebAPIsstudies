@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 
 namespace APICatalogo.Controllers
 {
+    //Todos os tipos de Retorno
+    [ApiConventionType(typeof(DefaultApiConventions))]
     [Produces("application/json")]
     [ApiVersion("1.0")]
     [Route("api/[Controller]")]

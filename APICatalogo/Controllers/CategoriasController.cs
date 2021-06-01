@@ -70,7 +70,9 @@ namespace APICatalogo.Controllers
 
             return categoriasDto;
         }
-
+        //Tipos de Retorno
+        [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}", Name="ObterCategoria")]
         public async Task<ActionResult<CategoriaDTO>> Get(int id)
         {
@@ -98,6 +100,8 @@ namespace APICatalogo.Controllers
         /// </summary>
         /// <param name="categoriaDto"></param>
         /// <returns></returns>
+        [ProducesResponseType(typeof(ProdutoDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CategoriaDTO categoriaDto)
         {
@@ -123,6 +127,7 @@ namespace APICatalogo.Controllers
         /// <param name="id"></param>
         /// <param name="categoriaDto"></param>
         /// <returns></returns>
+        [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Put))]
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] CategoriaDTO categoriaDto)
         {
