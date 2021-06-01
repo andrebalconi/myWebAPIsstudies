@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace APICatalogo.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/[Controller]")]
     [ApiController]
     [EnableCors("PermitirApiRequest")]
