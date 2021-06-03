@@ -234,7 +234,7 @@ namespace ApiCatalogoxUnitTests
 
             var catDto = new CategoriaDTO();
             catDto.CategoriaId = catId;
-            catDto.Nome = "Categoria Atualizada - Testes 1";
+            catDto.Nome = "New Lanches";
             catDto.ImagemUrl = result.ImagemUrl;
 
             var updatedData = controller.Put(catId, catDto);
@@ -272,7 +272,7 @@ namespace ApiCatalogoxUnitTests
         {
             //Arrange  
             var controller = new CategoriasController(repository, mapper);
-            var catId = 14;
+            var catId = 6;
 
             //Act  
             var data = controller.Delete(catId);
