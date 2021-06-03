@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace APICatalogo.Logging
+namespace ApiCatalogo.Logging
 {
-    public class CustomerLogger : ILogger 
+    public class CustomerLogger : ILogger
     {
         readonly string loggerName;
         readonly CustomLoggerProviderConfiguration loggerConfig;
@@ -28,7 +28,8 @@ namespace APICatalogo.Logging
             return logLevel == loggerConfig.LogLevel;
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state,
+            Exception exception, Func<TState, Exception, string> formatter)
         {
             string mensagem = $"{logLevel.ToString()}: {eventId.Id} - {formatter(state, exception)}";
 
@@ -37,7 +38,7 @@ namespace APICatalogo.Logging
 
         private void EscreverTextoNoArquivo(string mensagem)
         {
-            string caminhoArquivoLog = @"c:\dados\log\Balconi_Log.txt";
+            string caminhoArquivoLog = @"c:\dados\log\Macoratti_Log.txt";
             using (StreamWriter streamWriter = new StreamWriter(caminhoArquivoLog, true))
             {
                 try

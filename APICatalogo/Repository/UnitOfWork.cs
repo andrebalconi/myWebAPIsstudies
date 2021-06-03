@@ -1,10 +1,6 @@
 ﻿using APICatalogo.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace APICatalogo.Repository
+namespace ApiCatalogo.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -15,13 +11,15 @@ namespace APICatalogo.Repository
         {
             _context = contexto;
         }
+
         public IProdutoRepository ProdutoRepository
         {
-            get 
+            get
             {
                 return _produtoRepo = _produtoRepo ?? new ProdutoRepository(_context);
             }
         }
+
         public ICategoriaRepository CategoriaRepository
         {
             get
@@ -29,14 +27,16 @@ namespace APICatalogo.Repository
                 return _categoriaRepo = _categoriaRepo ?? new CategoriaRepository(_context);
             }
         }
-        public async Task Commit()
+
+        public void Commit()
         {
-             await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
+
         public void Dispose()
         {
             _context.Dispose();
         }
-        
+
     }
 }

@@ -1,8 +1,7 @@
-﻿using APICatalogo.DTOs;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http;
+﻿using ApiCatalogo.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -12,10 +11,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APICatalogo.Controllers
+namespace ApiCatalogo.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class AutorizaController : ControllerBase
     {
@@ -23,7 +22,8 @@ namespace APICatalogo.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public AutorizaController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+        public AutorizaController(UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -33,15 +33,22 @@ namespace APICatalogo.Controllers
         [HttpGet]
         public ActionResult<string> Get()
         {
-            return "AutorizaController :: Acessado em : " + DateTime.Now.ToLongDateString();
+            return "AutorizaController ::  Acessado em  : "
+               + DateTime.Now.ToLongDateString();
         }
 
+        /// <summary>
+        /// Registra um novo usuário
+        /// </summary>
+        /// <param name="model">Um objeto UsuarioDTO</param>
+        /// <returns>Status 200 e o token para o cliente</returns>
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser([FromBody]UsuarioDTO model)
         {
-            if (!ModelState.IsValid) {
-                return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            //}
 
             var user = new IdentityUser
             {
@@ -61,6 +68,12 @@ namespace APICatalogo.Controllers
             return Ok(GeraToken(model));
         }
 
+        /// <summary>
+        /// Verifica as credenciais de um usuário
+        /// </summary>
+        /// <param name="userInfo">Um objeot do tipo UsuarioDTO</param>
+        /// <returns>Status 200 e o token para o cliente</returns>
+        /// <remarks>retorna o Status 200 e o token para  novo</remarks>
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] UsuarioDTO userInfo)
         {
@@ -71,7 +84,8 @@ namespace APICatalogo.Controllers
             }
 
             //verifica as credenciais do usuário e retorna um valor
-            var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(userInfo.Email,
+                userInfo.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
@@ -89,28 +103,30 @@ namespace APICatalogo.Controllers
             //define declarações do usuário
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
-                new Claim("myPet", "peg"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+                 new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
+                 new Claim("meuPet", "pipoca"),
+                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+             };
 
-            //gera uma chave com base em um algoritimo simetrico
+            //gera uma chave com base em um algoritmo simetrico
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                Encoding.UTF8.GetBytes(_configuration["Jwt:key"]));
+            //gera a assinatura digital do token usando o algoritmo Hmac e a chave privada
             var credenciais = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            //tempo de expiracao do Token
+            //Tempo de expiracão do token.
             var expiracao = _configuration["TokenConfiguration:ExpireHours"];
-            var expiration = DateTime.UtcNow.AddHours(Double.Parse(expiracao));
+            var expiration = DateTime.UtcNow.AddHours(double.Parse(expiracao));
 
-            //classe que representa um token JWT e gera o Token
-            JwtSecurityToken token = new JwtSecurityToken(
-                issuer: _configuration["TokenConfiguration:Issuer"],
-                audience: _configuration["TokenConfiguration:Audience"],
-                claims: claims,
-                expires: expiration,
-                signingCredentials: credenciais);
+            // classe que representa um token JWT e gera o token
+             JwtSecurityToken token = new JwtSecurityToken(
+               issuer: _configuration["TokenConfiguration:Issuer"],
+               audience: _configuration["TokenConfiguration:Audience"],
+               claims: claims,
+               expires: expiration,
+               signingCredentials: credenciais);
 
+            //retorna os dados com o token e informacoes
             return new UsuarioToken()
             {
                 Authenticated = true,
@@ -118,8 +134,6 @@ namespace APICatalogo.Controllers
                 Expiration = expiration,
                 Message = "Token JWT OK"
             };
-
-;        }
-
+        }
     }
 }
