@@ -1,4 +1,5 @@
-﻿using APICatalogo.Models;
+﻿using ApiCatalogo.Models;
+using APICatalogo.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;

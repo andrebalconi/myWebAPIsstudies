@@ -8,7 +8,7 @@ namespace ApiCatalogo.GraphQL
     public class CategoriaQuery : ObjectGraphType
     {
         //recebe a instância do nosso UnitOfWork que contém 
-        //as instãncias dos repositórios
+        //as instâncias dos repositórios
         public CategoriaQuery(IUnitOfWork _context)
         {
             //nosso método vai retornar um objeto Categoria

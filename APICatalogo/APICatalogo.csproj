@@ -16,8 +16,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190531134143_Inicial.cs" />
+    <Compile Remove="Migrations\20190531134143_Inicial.Designer.cs" />
     <Compile Remove="Migrations\20190531160050_Populadb.cs" />
     <Compile Remove="Migrations\20190531160050_Populadb.Designer.cs" />
+    <Compile Remove="Migrations\20190531160354_Populadb.cs" />
+    <Compile Remove="Migrations\20190531160354_Populadb.Designer.cs" />
+    <Compile Remove="Migrations\20190623144946_Identity.cs" />
+    <Compile Remove="Migrations\20190623144946_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20210514012007_Inicial.cs" />
+    <Compile Remove="Migrations\20210514012007_Inicial.Designer.cs" />
+    <Compile Remove="Migrations\20210514233551_Populadb.cs" />
+    <Compile Remove="Migrations\20210514233551_Populadb.Designer.cs" />
+    <Compile Remove="Migrations\20210530153830_Identity.cs" />
+    <Compile Remove="Migrations\20210530153830_Identity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
